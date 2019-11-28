@@ -1,11 +1,11 @@
-const createProject = (project) => {
+const createTransaction = (transaction) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         // make async call to database
         const firestore = getFirestore();
         const profile = getState().firebase.profile;
         const authorId = getState().firebase.auth.uid;
-        firestore.collection('projects').add({
-            ...project,
+        firestore.collection('transactions').add({
+            ...transaction,
             authorFirstName: profile.firstName,
             authorLastName: profile.lastName,
             authorId: authorId,
@@ -18,4 +18,4 @@ const createProject = (project) => {
     }
 };
 
-export default createProject;
+export default createTransaction;

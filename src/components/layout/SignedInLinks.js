@@ -5,10 +5,7 @@ import { signOut } from '../../store/actions/authAction';
 
 const SignedInLinks = (props) => {
     return (
-        <ul className='right'>
-            <li>
-                <NavLink to='/create' >New Project</NavLink>
-            </li>
+        <ul className='right'>          
             <li>
                 <NavLink to='/transactions' >Transactions</NavLink>
             </li>
@@ -17,6 +14,9 @@ const SignedInLinks = (props) => {
             </li>
             <li>
                 <NavLink to='/' className='btn btn-floating pink lighten-1'>{props.profile.initials}</NavLink>
+            </li>
+            <li>
+                <NavLink to='/' className='lighten-1'>Balance: {props.profile.balance}</NavLink>
             </li>
         </ul>
     )

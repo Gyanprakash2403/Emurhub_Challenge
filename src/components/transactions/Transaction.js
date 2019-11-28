@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-
+import createTransaction from '../../store/actions/transactionAction';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 class Transaction extends Component {
     state = {
         transferTo: '',
@@ -7,7 +9,7 @@ class Transaction extends Component {
         accountHolderLastName: '',
         amount: '',
         remark: '',
-        currencyType: '',
+        currencyType: 'Bitcoin',
     }
 
     handleChange = (e) => {
@@ -18,10 +20,12 @@ class Transaction extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault(); 
-        console.log(this.state)       ;
+        this.props.createTransaction(this.state)
     }
 
-    render() {      
+    render() {     
+        const { auth } = this.props;
+        if (!auth.uid) return <Redirect to='/signin' />  
         return (
             <div className='container'>
                 <form onSubmit={this.handleSubmit} className='white'>
@@ -61,5 +65,16 @@ class Transaction extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        auth: state.firebase.auth
+    }
+}
 
-export default Transaction;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createTransaction: (transaction) => dispatch(createTransaction(transaction))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Transaction);;
