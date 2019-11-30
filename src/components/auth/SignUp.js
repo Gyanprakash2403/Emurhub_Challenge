@@ -8,12 +8,15 @@ import {signIn, signUp} from '../../store/actions/authAction';
 class SignUp extends Component {
     state = {
         identifier: '',
-        email: '',
-        password: '',
         firstName: '',
-        lastName: '',       
-        address: '',
-        zipcode: ''
+        lastName: '',
+        derscription: '',
+        email: '',
+        bitcoinWalletBalance: 0,       
+        ethereumWalletId: '',
+        ethereumWalletIdBalance: 0,
+        maxAmount: 5000,
+        password:'',
     }
 
     handleChange = (e) => {
@@ -45,19 +48,15 @@ class SignUp extends Component {
                     <div className='input-field'>
                         <label htmlFor='firstName'>First Name</label>
                         <input type='text' id='firstName' onChange={(e) => this.handleChange(e)} />
-                    </div>
+                    </div>        
                     <div className='input-field'>
                         <label htmlFor='lastName'>Last Name</label>
                         <input type='text' id='lastName' onChange={(e) => this.handleChange(e)} />
-                    </div>
-                    <div className='input-field'>
-                        <label htmlFor='address'>Address</label>
-                        <input type='text' id='address' onChange={(e) => this.handleChange(e)} />
-                    </div>                   
-                    <div className='input-field'>
-                        <label htmlFor='zipcode'>Zip Code</label>
-                        <input type='text' id='zipcode' onChange={(e) => this.handleChange(e)} />
                     </div>  
+                    <div className='input-field'>
+                        <label htmlFor='derscription'>Last Name</label>
+                        <input type='text' id='derscription' onChange={(e) => this.handleChange(e)} />
+                    </div>       
                     <div className='input-field'>
                         <button className='btn pink lighten-1 z-depth-0'>Sign Up</button>
                     </div>

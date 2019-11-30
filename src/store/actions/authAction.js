@@ -27,8 +27,6 @@ export const signUp = (newUser) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firebase = getFirebase();
         const firestore = getFirestore();
-
-
         firebase.auth().createUserWithEmailAndPassword(
             newUser.email,
             newUser.password
@@ -37,9 +35,11 @@ export const signUp = (newUser) => {
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
                 initials: newUser.firstName[0] + newUser.lastName[0],
-                address: newUser.address,
-                zipcode: newUser.zipcode,
-                balance: 0
+                derscription: newUser.derscription,
+                bitcoinWalletBalance: newUser.bitcoinWalletBalance,       
+                ethereumWalletId: res.user.uid,
+                ethereumWalletIdBalance: newUser.ethereumWalletIdBalance,
+                maxAmount: newUser.maxAmount,               
             })
         }).then(() => {
             dispatch({ type: 'SIGNUP_SUCCESS'})
