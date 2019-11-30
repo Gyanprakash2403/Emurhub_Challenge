@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import {deposit} from '../../store/actions/authAction';
 
 
 class Deposit extends Component {
     state = {        
-        bitcoinWalletBalance: 0,       
+        depositBalance: 0,       
         ethereumWalletId: '',
-        currencyType: '',
+        currencyType: '1',
         ethereumWalletIdBalance: 0,
         maxAmount: 5000,
         password:'',
@@ -23,7 +24,13 @@ class Deposit extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.deposit(this.state);    
+        const {BitcoinWallet, EthereumWallet } = this.props;    
+        let updateForm = {
+            ...this.state,
+            bitCoinWalletId: BitcoinWallet[0].id,
+            ethereumWalletId: EthereumWallet[0].id
+        }
+        this.props.deposit(updateForm);    
         //console.log(this.state);
     }
 
@@ -35,13 +42,13 @@ class Deposit extends Component {
                 <form onSubmit={this.handleSubmit} className='white'>
                     <h5 className='grey-text text-darken-3'>Sign Up</h5>
                     <div className='input-field'>
-                        <label htmlFor='bitcoinWalletBalance'>Deposit</label>
-                        <input type='number' id='bitcoinWalletBalance' onChange={(e) => this.handleChange(e)} />
+                        <label htmlFor='depositBalance'>Deposit</label>
+                        <input type='number' id='depositBalance' onChange={(e) => this.handleChange(e)} />
                     </div>  
                     <div className='input-field' htmlFor='currencyType'>                       
                         <select className="browser-default grey-text text-darken-3" id='currencyType' onChange={(e) => this.handleChange(e)}>                     
-                            <option value="Bitcoin" defaultValue>Bitcoin</option>
-                            <option value="Ethereum">Ethereum</option>
+                            <option value="1">Bitcoin</option>
+                            <option value="2">Ethereum</option>
                         </select>          
                     </div>                 
                     <div className='input-field'>
@@ -54,9 +61,11 @@ class Deposit extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => {  
     return {
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        BitcoinWallet: state.firestore.ordered.BitcoinWallet,
+        EthereumWallet: state.firestore.ordered.EthereumWallet
     }
 }
 
@@ -66,4 +75,10 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Deposit)
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    firestoreConnect([
+        { collection: 'BitcoinWallet'},
+        { collection: 'EthereumWallet'}
+    ])
+)(Deposit);

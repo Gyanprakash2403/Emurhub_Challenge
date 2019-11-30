@@ -1,6 +1,9 @@
 
 const initState = {
-    authError: null   
+    authError: null,
+    updateError: null,
+    bitCoinWalletBalance: null,
+    ethrumbWalletBalance: null
 };
 
 const authReducer = (state = initState, action) => {
@@ -14,8 +17,7 @@ const authReducer = (state = initState, action) => {
             console.log('login Success');
             return {
                 ...state,
-                authError: null,
-                identifier: action.users.identifier,
+                authError: null
             }
         case 'SIGNOUT_SUCCESS':
             console.log('SIGNOUT Success');
@@ -31,6 +33,26 @@ const authReducer = (state = initState, action) => {
             return {
                 ...state,
                 authError: 'Signup Failed:' + action.err.message
+            }
+        case 'BALANCE_UPDATED_BITCOIN':
+            console.log(action);
+            return {
+                ...state,
+                bitCoinWalletBalance: action.BitcoinWalletbalance
+
+            }
+        case 'BALANCE_UPDATED_BITCOIN':
+            console.log(action);
+            return {
+                ...state,
+                ethrumbWalletBalance: action.EthereumWalletBalance
+
+            }
+        case 'BALANCE_UPDATED_ERROR':
+            console.log(action);
+            return {
+                ...state,
+                updateError: 'Update Failed:' + action.err.message
             }
         default:
             return state;

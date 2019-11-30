@@ -62,25 +62,43 @@ export const signUp = (newUser) => {
     }
 }
 
-export const deposit = (updateForm) => {
-    console.log(updateForm);
-    return (dispatch, getState, { getFirebase, getFirestore }) => {
-        // make async call to database
-        const firestore = getFirestore();
-        const profile = getState().firebase.profile;
-        const authorId = getState().firebase.auth.uid;
-        firestore.collection("users").doc(authorId).set({
-            ...profile,
-            bitcoinWalletBalance: Number(profile.bitcoinWalletBalance) + Number(updateForm.bitcoinWalletBalance),
-            currencyType: updateForm.currencyType
-        })
-        .then(function() {
-            console.log("BALANCE_UPDATED!");
-            dispatch({ type: 'BALANCE_UPDATED' });
-        })
-        .catch(function(error) {
-            dispatch({ type: 'BALANCE_UPDATED_ERROR' }, error);
-        });    
-    }
-    
+export const deposit = (updateForm) => {    
+    let collection=null, wallet=null;
+    if(updateForm.currencyType === '1'){
+        collection = 'BitcoinWallet';
+        return (dispatch, getState, { getFirebase, getFirestore }) => {
+            // make async call to database
+            const firestore = getFirestore();
+            const currentState = getState();
+            firestore.collection(collection).doc(updateForm.bitCoinWalletId).update({
+                BitcoinWalletbalance: currentState.firestore.ordered.BitcoinWallet[0].BitcoinWalletbalance + updateForm.depositBalance
+            })
+            .then(function(res) {
+                console.log("BALANCE_UPDATED!");
+                dispatch({ type: 'BALANCE_UPDATED_BITCOIN', BitcoinWalletbalance: currentState.firestore.ordered.BitcoinWallet[0].BitcoinWalletbalance});
+            })
+            .catch(function(error) {
+                dispatch({ type: 'BALANCE_UPDATED_ERROR' }, error);
+            });    
+        } 
+
+    } else {
+        collection = 'EthereumWallet';
+        wallet = updateForm.ethereumWalletId;
+        return (dispatch, getState, { getFirebase, getFirestore }) => {
+            // make async call to database
+            const firestore = getFirestore();
+            const currentState = getState();
+            firestore.collection(collection).doc(wallet).update({               
+                EthereumWalletBalance: currentState.firestore.ordered.BitcoinWallet[0].EthereumWalletBalance + updateForm.depositBalance
+            })
+            .then(function(res) {
+                console.log("BALANCE_UPDATED!");
+                dispatch({ type: 'BALANCE_UPDATED_ETHEREUM', EthereumWalletBalance:currentState.firestore.ordered.EthereumWallet[0].EthereumWalletBalance } );
+            })
+            .catch(function(error) {
+                dispatch({ type: 'BALANCE_UPDATED_ERROR' }, error);
+            });    
+        } 
+    }       
 }
