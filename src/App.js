@@ -6,6 +6,7 @@ import TransactionDetails from './components/transactions/TransactionDetails';
 import SignIn from  './components/auth/SignIn';
 import SignUp from  './components/auth/SignUp';
 import Transaction from './components/transactions/Transaction';
+import Deposit from './components/deposit/deposit';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path='/signin' component={SignIn} />
             <Route path='/signup' component={SignUp} />
             <Route path='/transactions' component={Transaction} />
+            <Route path='/deposit' component={Deposit} />
         </Switch>
       </div>
     </BrowserRouter>

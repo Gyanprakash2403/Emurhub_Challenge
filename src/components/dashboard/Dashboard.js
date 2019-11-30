@@ -10,7 +10,7 @@ class Dashboard extends Component {
     
     render() {
         //console.log(this.props);
-        const { transactions, auth } = this.props;
+        const { transactions, auth, BitcoinWallet, EthereumWallet } = this.props;
 
         if(!auth.uid) return <Redirect to='/signin' />        
         return (
@@ -20,7 +20,7 @@ class Dashboard extends Component {
                         <TransactionList transactions={transactions} />
                     </div>
                     <div className='col s12 m5 offset-m1'>
-                        <Notifications />
+                        <Notifications EthereumWallet={EthereumWallet} BitcoinWallet={BitcoinWallet} />
                     </div>
                 </div>
             </div>
@@ -32,6 +32,8 @@ const mapStateToProps = (state) => {
     console.log(state);
     return {
         transactions: state.firestore.ordered.transactions,
+        BitcoinWallet: state.firestore.ordered.BitcoinWallet,
+        EthereumWallet: state.firestore.ordered.EthereumWallet,
         auth: state.firebase.auth
     }
 }
@@ -39,6 +41,8 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-        { collection: 'transactions'}
+        { collection: 'transactions'},
+        { collection: 'BitcoinWallet'},
+        { collection: 'EthereumWallet'}
     ])
 )(Dashboard);

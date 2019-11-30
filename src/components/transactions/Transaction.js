@@ -4,12 +4,16 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 class Transaction extends Component {
     state = {
-        transferTo: '',
-        accountHolderFirstName: '',
-        accountHolderLastName: '',
-        amount: '',
-        remark: '',
-        currencyType: 'Bitcoin',
+        identifire: '',
+        currencyAmount: '',
+        currencyType: '',
+        sourceId: '',
+        targetUserName: '',
+        targetUserId: '',
+        timestampCreated: '',
+        timestampProcessed: '',
+        state: '',
+        remark: ''
     }
 
     handleChange = (e) => {
@@ -31,33 +35,29 @@ class Transaction extends Component {
                 <form onSubmit={this.handleSubmit} className='white'>
                     <h5 className='grey-text text-darken-3'>Fund Transfer</h5>
                     <div className='input-field'>
-                        <label htmlFor='transferTo'>Account Number</label>
-                        <input type="number" maxLength="11" id='transferTo' onChange={(e) => this.handleChange(e)} />
-                    </div>
-                    <div className='input-field'>
-                        <label htmlFor='accountHolderFirstName'>First Name</label>
-                        <input type='text' id='accountHolderFirstName' onChange={(e) => this.handleChange(e)} />
-                    </div>
-                    <div className='input-field'>
-                        <label htmlFor='accountHolderLastName'>Last Name</label>
-                        <input type='text' id='accountHolderLastName' onChange={(e) => this.handleChange(e)} />
-                    </div>                   
-                    <div className='input-field' >
-                        <label htmlFor='amount'>Amount</label>
-                        <input type='number' id='amount' onChange={(e) => this.handleChange(e)} />                      
+                        <label htmlFor='currencyAmount'>Currency Account</label>
+                        <input type="number" maxLength="11" id='currencyAmount' onChange={(e) => this.handleChange(e)} />
                     </div>
                     <div className='input-field' htmlFor='currencyType'>                       
                         <select className="browser-default grey-text text-darken-3" id='currencyType' onChange={(e) => this.handleChange(e)}>                     
-                            <option value="Bitcoin">Bitcoin</option>
+                            <option value="Bitcoin" defaultValue>Bitcoin</option>
                             <option value="Ethereum">Ethereum</option>
                         </select>          
                     </div>
+                    <div className='input-field'>
+                        <label htmlFor='targetUserName'>Payee Name</label>
+                        <input type='text' id='targetUserName' onChange={(e) => this.handleChange(e)} />
+                    </div>     
+                    <div className='input-field'>
+                        <label htmlFor='targetUserId'>Transfer To Account</label>
+                        <input type='text' id='targetUserId' onChange={(e) => this.handleChange(e)} />
+                    </div>                    
                     <div className='input-field'>
                         <label htmlFor='remark'>Remark</label>
                         <input type='text' id='remark' onChange={(e) => this.handleChange(e)} />
                     </div>         
                     <div className='input-field'>
-                        <button className='btn pink lighten-1 z-depth-0'>Create</button>
+                        <button className='btn pink lighten-1 z-depth-0'>Transfer</button>
                     </div>
                 </form>
             </div>

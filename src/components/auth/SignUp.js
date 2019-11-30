@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import {signIn, signUp} from '../../store/actions/authAction';
 
 
@@ -54,7 +55,7 @@ class SignUp extends Component {
                         <input type='text' id='lastName' onChange={(e) => this.handleChange(e)} />
                     </div>  
                     <div className='input-field'>
-                        <label htmlFor='derscription'>Last Name</label>
+                        <label htmlFor='derscription'>Description</label>
                         <input type='text' id='derscription' onChange={(e) => this.handleChange(e)} />
                     </div>       
                     <div className='input-field'>
@@ -82,4 +83,10 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    firestoreConnect([
+        { collection: 'BitcoinWallet' },
+        { collection: 'EthereumWallet' }
+    ])
+)(SignUp)

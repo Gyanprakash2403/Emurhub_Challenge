@@ -5,7 +5,10 @@ import { signOut } from '../../store/actions/authAction';
 
 const SignedInLinks = (props) => {
     return (
-        <ul className='right'>          
+        <ul className='right'>    
+            <li>
+                <NavLink to='/deposit' >Deposit</NavLink>
+            </li>      
             <li>
                 <NavLink to='/transactions' >Transactions</NavLink>
             </li>
